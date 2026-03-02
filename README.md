@@ -24,7 +24,7 @@ We’ve fully containerized the system so you can get it running in a single ste
 Our image is optimized for both Mac and Windows/Linux. 
 ```bash
 # Simply paste your HF_TOKEN to start the engine
-docker run -p 8000:8000 -e HF_TOKEN=<your_token_here> mregamerz/ccpa-compliance:latest
+docker run -p 8000:8000 -e HF_TOKEN=<here> mregamerz/ccpa-compliance:latest
 ```
 
 ### 2. Experience the Dashboard
