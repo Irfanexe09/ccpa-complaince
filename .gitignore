@@ -1,0 +1,63 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Distribution / packaging
+build/
+dist/
+eggs/
+*.egg-info/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.coverage
+.pytest_cache/
+htmlcov/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Editor directories and files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.*
+
+# Docker
+docker-compose.override.yml
+
+# Archives / submission zips — don't commit these
+*.zip
+*.tar.gz
+
+# Large binary assets — model weights and PDFs are too large for GitHub
+# The statute PDF is already included intentionally, keep it.
+# If you generate FAISS indexes locally, exclude them:
+faiss_index/
+*.faiss
+*.pkl
+
+# Hugging Face model cache (if downloaded locally outside Docker)
+.cache/

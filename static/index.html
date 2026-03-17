@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCPA Guardian | Quantum Coders</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0b10;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --danger: #ef4444;
+            --success: #10b981;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .background-blob {
+            position: fixed;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            top: -25vw;
+            right: -25vw;
+            z-index: -1;
+            animation: drift 20s infinite alternate linear;
+        }
+
+        @keyframes drift {
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(-10%, 10%);
+            }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .team-badge {
+            background: var(--card-bg);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            font-size: 14px;
+            color: var(--text-dim);
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 16px;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            color: var(--text-dim);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .analyzer-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+            color: #fff;
+            font-size: 16px;
+            resize: none;
+            min-height: 160px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .analyze-btn {
+            width: 100%;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--accent-glow);
+        }
+
+        .analyze-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .results {
+            margin-top: 40px;
+            display: none;
+            animation: slideUp 0.5s ease forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .status-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .article-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .article-card h4 {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 100px;
+            padding-bottom: 40px;
+            color: var(--text-dim);
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-blob"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">CCPA GUARDIAN</div>
+            <div class="team-badge">B.Tech First Year | Quantum Coders</div>
+        </header>
+
+        <section class="hero">
+            <h1>CCPA <br>Statutory Auditor</h1>
+            <p>Verified by <strong>Quantum Coders</strong> &bull; Powered by Qwen-2.5-1.5B</p>
+        </section>
+
+        <main class="analyzer-card">
+            <div class="input-group">
+                <textarea id="promptInput"
+                    placeholder="e.g. 'We sell user emails to ad agencies without notice...'"></textarea>
+            </div>
+            <button id="analyzeBtn" class="analyze-btn" onclick="runAnalysis()">
+                <span class="loader" id="loader"></span>
+                <span id="btnText">Analyze Practice</span>
+            </button>
+
+            <div id="results" class="results">
+                <div id="statusHeader" class="status-badge"></div>
+                <h3 style="margin-bottom: 20px;">Cited Articles:</h3>
+                <div id="articleList" class="article-grid"></div>
+            </div>
+        </main>
+
+        <footer>
+            Built with ❤️ by <strong>Quantum Coders</strong> &bull; Powered by Qwen-2.5-1.5B & RAG
+        </footer>
+    </div>
+
+    <script>
+        async function runAnalysis() {
+            const prompt = document.getElementById('promptInput').value;
+            if (!prompt) return;
+
+            const btn = document.getElementById('analyzeBtn');
+            const loader = document.getElementById('loader');
+            const btnText = document.getElementById('btnText');
+            const resultsDiv = document.getElementById('results');
+
+            // UI State
+            btn.disabled = true;
+            loader.style.display = 'block';
+            btnText.innerText = 'Consulting Law...';
+            resultsDiv.style.display = 'none';
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: prompt })
+                });
+
+                const data = await response.json();
+
+                // Display Results
+                const statusHeader = document.getElementById('statusHeader');
+                const articleList = document.getElementById('articleList');
+
+                if (data.harmful) {
+                    statusHeader.innerText = '⚠️ VIOLATION DETECTED';
+                    statusHeader.className = 'status-badge status-danger';
+                } else {
+                    statusHeader.innerText = '✅ NO VIOLATION DETECTED';
+                    statusHeader.className = 'status-badge status-success';
+                }
+
+                articleList.innerHTML = '';
+                if (data.articles.length > 0) {
+                    data.articles.forEach(art => {
+                        const card = document.createElement('div');
+                        card.className = 'article-card';
+                        card.innerHTML = `<h4>${art}</h4><p style="font-size: 14px; color: #94a3b8;">Violation of this section identified from statutory text.</p>`;
+                        articleList.appendChild(card);
+                    });
+                } else if (data.harmful) {
+                    articleList.innerHTML = '<p>No specific articles cited, but potential harm found.</p>';
+                } else {
+                    articleList.innerHTML = '<p style="color: #94a3b8; font-style: italic;">No specific violations found. The practice appears compliant with the currently indexed CCPA statute.</p>';
+                }
+
+                resultsDiv.style.display = 'block';
+
+            } catch (err) {
+                alert('Connection Error. Make sure the FastAPI server is running!');
+            } finally {
+                btn.disabled = false;
+                loader.style.display = 'none';
+                btnText.innerText = 'Analyze Practice';
+            }
+        }
+    </script>
+</body>
+
+</html>

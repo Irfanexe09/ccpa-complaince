@@ -1,0 +1,17 @@
+# Core RAG Dependencies
+langchain-community>=0.0.30
+langchain-huggingface>=0.0.1
+faiss-cpu>=1.8.0
+sentence-transformers>=2.2.0
+transformers>=4.40.0
+torch>=2.0.0
+pypdf>=4.0.0
+
+# Environment & Config
+python-dotenv>=1.0.0
+pathlib>=1.0.1
+
+# API (Optional but good for production)
+fastapi>=0.110.0
+uvicorn>=0.28.0
+pydantic>=2.6.0
